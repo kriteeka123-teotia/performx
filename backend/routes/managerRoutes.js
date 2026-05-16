@@ -7,7 +7,7 @@ const router = express.Router();
 
 // @route   GET /api/manager/team-goals
 // @desc    Get all goals for the manager's team
-router.get('/team-goals', protect, manager, async (req, res) => {
+router.get(`${API}/api/manager/team-goals`, protect, manager, async (req, res) => {
   try {
     // Find all users who report to this manager
     const teamMembers = await User.find({ managerId: req.user._id }).select('name email role department');
