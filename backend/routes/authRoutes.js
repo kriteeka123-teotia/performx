@@ -25,9 +25,8 @@ router.post('/register', async (req, res) => {
 
     let managerId = null;
     if (role === 'Employee') {
-      // Auto-assign to the first available manager so hackathon judges can test easily
-      const defaultManager = await User.findOne({ role: 'Manager' });
-      if (defaultManager) managerId = defaultManager._id;
+      const manager = await User.findOne({ role: 'Manager' });
+      if (manager) managerId = manager._id;
     }
 
     const user = await User.create({ 
@@ -45,6 +44,7 @@ router.post('/register', async (req, res) => {
       email: user.email,
       role: user.role,
       department: user.department,
+      managerId: user.managerId,
       token: generateToken(user._id),
     });
   } catch (error) {
