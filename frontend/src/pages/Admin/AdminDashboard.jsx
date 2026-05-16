@@ -17,7 +17,7 @@ const AdminDashboard = () => {
   const fetchStats = async () => {
     try {
       const config = { headers: { Authorization: `Bearer ${user.token}` } };
-      const res = await axios.get('http://localhost:5000/api/admin/stats', config);
+      const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/admin/stats`, config);
       setStats(res.data);
       setLoading(false);
     } catch (err) {
@@ -32,7 +32,7 @@ const AdminDashboard = () => {
         headers: { Authorization: `Bearer ${user.token}` },
         responseType: 'blob' 
       };
-      const res = await axios.get('http://localhost:5000/api/admin/export', config);
+      const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/admin/export'`, config);
       
       const url = window.URL.createObjectURL(new Blob([res.data]));
       const link = document.createElement('a');

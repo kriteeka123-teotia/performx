@@ -26,7 +26,7 @@ const EmployeeDashboard = () => {
   const fetchGoals = async () => {
     try {
       const config = { headers: { Authorization: `Bearer ${user.token}` } };
-      const { data } = await axios.get('http://localhost:5000/api/goals', config);
+      const { data } = await axios.get('${import.meta.env.VITE_API_URL}/api/goals', config);
       setGoals(data);
       setLoading(false);
     } catch (err) {
@@ -47,7 +47,7 @@ const EmployeeDashboard = () => {
 
     try {
       const config = { headers: { Authorization: `Bearer ${user.token}` } };
-      await axios.post('http://localhost:5000/api/goals', newGoal, config);
+      await axios.post(`${import.meta.env.VITE_API_URL}/api/goals`, newGoal, config);
       setShowModal(false);
       setNewGoal({ title: '', description: '', uom: 'Numeric', target: '', weightage: 10 });
       fetchGoals();
@@ -60,7 +60,7 @@ const EmployeeDashboard = () => {
     e.preventDefault();
     try {
       const config = { headers: { Authorization: `Bearer ${user.token}` } };
-      await axios.put(`http://localhost:5000/api/goals/${progressGoal._id}/progress`, progressData, config);
+      await axios.put(`${import.meta.env.VITE_API_URL}/api/goals/${progressGoal._id}/progress`, progressData, config);
       setProgressGoal(null);
       fetchGoals();
     } catch (err) {
