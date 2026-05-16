@@ -4,6 +4,8 @@ import { AuthContext } from '../../context/AuthContext';
 import { Download, Users, Target, CheckCircle, Activity } from 'lucide-react';
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip as RechartsTooltip } from 'recharts';
 
+const API = import.meta.env.VITE_API_URL;
+
 const AdminDashboard = () => {
   const { user } = useContext(AuthContext);
   const [stats, setStats] = useState(null);
@@ -17,7 +19,7 @@ const AdminDashboard = () => {
   const fetchStats = async () => {
     try {
       const config = { headers: { Authorization: `Bearer ${user.token}` } };
-      const res = await axios.get(`https://performx-api.onrender.com/api/admin/stats`, config);
+      const res = await axios.get(`${API}/api/admin/stats`, config);
       setStats(res.data);
       setLoading(false);
     } catch (err) {
@@ -32,7 +34,7 @@ const AdminDashboard = () => {
         headers: { Authorization: `Bearer ${user.token}` },
         responseType: 'blob' 
       };
-      const res = await axios.get(`https://performx-api.onrender.com/api/admin/export'`, config);
+      const res = await axios.get(`${API}/api/admin/export`, config);
       
       const url = window.URL.createObjectURL(new Blob([res.data]));
       const link = document.createElement('a');

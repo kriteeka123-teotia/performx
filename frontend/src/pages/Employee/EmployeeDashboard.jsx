@@ -4,6 +4,8 @@ import { AuthContext } from '../../context/AuthContext';
 import { Plus, Target, Clock, CheckCircle, AlertCircle, Lock, Edit2 } from 'lucide-react';
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
 
+const API = import.meta.env.VITE_API_URL;
+
 const EmployeeDashboard = () => {
   const { user } = useContext(AuthContext);
   const [goals, setGoals] = useState([]);
@@ -26,7 +28,7 @@ const EmployeeDashboard = () => {
   const fetchGoals = async () => {
     try {
       const config = { headers: { Authorization: `Bearer ${user.token}` } };
-      const { data } = await axios.get('https://performx-api.onrender.com/api/goals', config);
+      const { data } = await axios.get(`${API}/api/goals`, config);
       setGoals(data);
       setLoading(false);
     } catch (err) {
@@ -47,7 +49,7 @@ const EmployeeDashboard = () => {
 
     try {
       const config = { headers: { Authorization: `Bearer ${user.token}` } };
-      await axios.post(`https://performx-api.onrender.com/api/goals`, newGoal, config);
+      await axios.post(`${API}/api/goals`, newGoal, config);
       setShowModal(false);
       setNewGoal({ title: '', description: '', uom: 'Numeric', target: '', weightage: 10 });
       fetchGoals();
@@ -60,7 +62,7 @@ const EmployeeDashboard = () => {
     e.preventDefault();
     try {
       const config = { headers: { Authorization: `Bearer ${user.token}` } };
-      await axios.put(`https://performx-api.onrender.com/api/goals/${progressGoal._id}/progress`, progressData, config);
+      await axios.put(`${API}/api/goals/${progressGoal._id}/progress`, progressData, config);
       setProgressGoal(null);
       fetchGoals();
     } catch (err) {

@@ -5,6 +5,8 @@ import User from '../models/User.js';
 
 const router = express.Router();
 
+console.log("API URL:", import.meta.env.VITE_API_URL);
+
 // Generate JWT
 const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: '30d' });

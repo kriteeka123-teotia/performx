@@ -4,6 +4,8 @@ import { AuthContext } from '../../context/AuthContext';
 import { Users, CheckCircle, AlertCircle, Edit3, Lock, Target, MessageSquare } from 'lucide-react';
 import { BarChart, Bar, XAxis, Tooltip, ResponsiveContainer } from 'recharts';
 
+const API = import.meta.env.VITE_API_URL;
+
 const ManagerDashboard = () => {
   const { user } = useContext(AuthContext);
   const [data, setData] = useState({ teamMembers: [], goals: [] });
@@ -22,7 +24,7 @@ const ManagerDashboard = () => {
   const fetchTeamData = async () => {
     try {
       const config = { headers: { Authorization: `Bearer ${user.token}` } };
-      const res = await axios.get(`https://performx-api.onrender.com/api/manager/team-goals`, config);
+      const res = await axios.get(`${API}/api/manager/team-goals`, config);
       setData(res.data);
       setLoading(false);
     } catch (err) {
@@ -34,7 +36,7 @@ const ManagerDashboard = () => {
   const handleApprove = async (goalId) => {
     try {
       const config = { headers: { Authorization: `Bearer ${user.token}` } };
-      await axios.put(`https://performx-api.onrender.com/api/manager/goals/${goalId}/approve`, { approved: true, locked: true }, config);
+      await axios.put(`${API}/api/manager/goals/${goalId}/approve`, { approved: true, locked: true }, config);
       fetchTeamData();
     } catch (err) {
       setError('Failed to approve goal');
@@ -45,7 +47,7 @@ const ManagerDashboard = () => {
     e.preventDefault();
     try {
       const config = { headers: { Authorization: `Bearer ${user.token}` } };
-      await axios.put(`https://performx-api.onrender.com/api/manager/goals/${editingGoal._id}/approve`, { 
+      await axios.put(`${API}/api/manager/goals/${editingGoal._id}/approve`, { 
         weightage: editingGoal.weightage,
         target: editingGoal.target 
       }, config);
@@ -60,7 +62,7 @@ const ManagerDashboard = () => {
     e.preventDefault();
     try {
       const config = { headers: { Authorization: `Bearer ${user.token}` } };
-      await axios.put(`https://performx-api.onrender.com/api/manager/goals/${feedbackGoal._id}/feedback`, feedbackData, config);
+      await axios.put(`${API}/api/manager/goals/${feedbackGoal._id}/feedback`, feedbackData, config);
       setFeedbackGoal(null);
       setFeedbackData({ rating: 3, comment: '' });
       fetchTeamData();
