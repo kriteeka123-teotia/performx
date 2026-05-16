@@ -28,7 +28,7 @@ export const AuthProvider = ({ children }) => {
 
   const register = async (name, email, password, role, department) => {
     try {
-      const { data } = await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/register`, { name, email, password, role, department });
+      const { data } = await axios.post(`https://performx-api.onrender.com/api/auth/register`, { name, email, password, role, department });
       setUser(data);
       localStorage.setItem('userInfo', JSON.stringify(data));
       return { success: true };
